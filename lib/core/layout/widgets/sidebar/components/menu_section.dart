@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:reto_atiksoluciones/core/layout/widgets/sidebar/menu_sub_item.dart';
+import 'package:reto_atiksoluciones/core/layout/widgets/sidebar/components/menu_sub_item.dart';
 
 class MenuSection {
   final String title;
