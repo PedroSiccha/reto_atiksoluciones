@@ -183,7 +183,6 @@ class _HeaderNotificationIconState extends State<HeaderNotificationIcon> {
               child: const Icon(Icons.notifications_none, size: 20),
             ),
           ),
-          // Badge rojo
           Positioned(
             top: 2,
             right: 2,

@@ -26,7 +26,7 @@ class HeaderWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           HeaderBreadcrumb(),
-          HeaderActions(),     // Derecha
+          HeaderActions(),
         ],
       ),
     );
