@@ -133,7 +133,7 @@ class _HeaderAvatarMenuState extends State<HeaderAvatarMenu> {
         child: Container(
           padding: const EdgeInsets.all(6),
           decoration: const BoxDecoration(
-            color: Color(0xFF1E2A41), // Fondo azul oscuro
+            color: Color(0xFF1E2A41),
             shape: BoxShape.circle,
           ),
           child: const Text(
