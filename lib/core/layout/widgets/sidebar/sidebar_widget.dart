@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:reto_atiksoluciones/core/constants/app_colors.dart';
-import 'package:reto_atiksoluciones/core/layout/widgets/sidebar/menu_section.dart';
-import 'package:reto_atiksoluciones/core/layout/widgets/sidebar/menu_sub_item.dart';
-import 'package:reto_atiksoluciones/core/layout/widgets/sidebar/sidebar_header.dart';
-import 'package:reto_atiksoluciones/core/layout/widgets/sidebar/sidebar_item.dart';
-import 'package:reto_atiksoluciones/core/layout/widgets/sidebar/sidebar_section.dart';
-import 'package:reto_atiksoluciones/core/layout/widgets/sidebar/sidebar_user_card.dart';
+import 'package:reto_atiksoluciones/core/layout/widgets/sidebar/components/menu_section.dart';
+import 'package:reto_atiksoluciones/core/layout/widgets/sidebar/components/menu_sub_item.dart';
+import 'package:reto_atiksoluciones/core/layout/widgets/sidebar/components/sidebar_header.dart';
+import 'package:reto_atiksoluciones/core/layout/widgets/sidebar/components/sidebar_item.dart';
+import 'package:reto_atiksoluciones/core/layout/widgets/sidebar/components/sidebar_section.dart';
+import 'package:reto_atiksoluciones/core/layout/widgets/sidebar/components/sidebar_user_card.dart';
 
 class SidebarWidget extends StatefulWidget {
   const SidebarWidget({super.key});

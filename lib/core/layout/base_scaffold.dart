@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:reto_atiksoluciones/core/layout/widgets/header/header_widget.dart';
 import 'package:reto_atiksoluciones/core/layout/widgets/sidebar/sidebar_widget.dart';
 
 class BaseScaffold extends StatelessWidget {
@@ -17,17 +18,7 @@ class BaseScaffold extends StatelessWidget {
               Expanded(
                 child: Column(
                   children: [
-                    Container(
-                      height: 64,
-                      color: Colors.white,
-                      padding: const EdgeInsets.symmetric(horizontal: 24),
-                      alignment: Alignment.centerLeft,
-                      child: Row(
-                        children: const [
-                          Expanded(child: Text('HEADER')),
-                        ],
-                      ),
-                    ),
+                    const HeaderWidget(),
                     Expanded(
                       child: SingleChildScrollView(
                         child: Padding(
