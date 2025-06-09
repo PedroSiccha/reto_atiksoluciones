@@ -14,7 +14,7 @@ class SidebarUserCard extends StatelessWidget {
             width: 30,
             height: 30,
             decoration: BoxDecoration(
-              color: AppColors.sidebarBlue,
+              color: AppColors.sidebar,
               borderRadius: BorderRadius.circular(20),
               border: Border.all(color: Colors.white, width: 2),
             ),

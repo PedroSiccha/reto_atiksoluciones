@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:reto_atiksoluciones/core/constants/app_colors.dart';
 
 class AppTheme {
   static final lightTheme = ThemeData(
-    scaffoldBackgroundColor: const Color(0xFFF9FAFB),
-    primaryColor: const Color(0xFF0061F2),
+    scaffoldBackgroundColor: AppColors.background,
+    primaryColor: AppColors.primary,
     useMaterial3: true,
     fontFamily: 'Inter',
     brightness: Brightness.light,
@@ -14,19 +15,19 @@ class AppTheme {
   );
 
   static final darkTheme = ThemeData(
-    scaffoldBackgroundColor: const Color(0xFF121212),
-    primaryColor: const Color(0xFF0061F2),
+    scaffoldBackgroundColor: AppColors.backgroundDark,
+    primaryColor: AppColors.background,
     useMaterial3: true,
     fontFamily: 'Inter',
     brightness: Brightness.dark,
     appBarTheme: const AppBarTheme(
-      backgroundColor: Color(0xFF1E1E1E),
+      backgroundColor: AppColors.backgroundDark,
       elevation: 0,
     ),
     colorScheme: const ColorScheme.dark(
       background: Color(0xFF121212),
-      surface: Color(0xFF1E1E1E),
-      primary: Color(0xFF0061F2),
+      surface: AppColors.backgroundDark,
+      primary: AppColors.background,
     ),
   );
 }

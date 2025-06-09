@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:reto_atiksoluciones/core/shared/controllers/theme_controller.dart';
+import 'package:reto_atiksoluciones/core/controllers/theme_controller.dart';
 
 class HeaderThemeToggleButton extends StatelessWidget {
   const HeaderThemeToggleButton({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final themeController = context.watch<ThemeController>();
+    final theme = context.watch<ThemeController>();
 
     return InkWell(
       borderRadius: BorderRadius.circular(8),
-      onTap: themeController.toggleTheme,
+      onTap: theme.toggleTheme,
       child: Container(
         padding: const EdgeInsets.all(8),
         decoration: BoxDecoration(
@@ -19,7 +19,7 @@ class HeaderThemeToggleButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(8),
         ),
         child: Icon(
-          themeController.isDark ? Icons.wb_sunny : Icons.dark_mode,
+          theme.isDark ? Icons.wb_sunny : Icons.dark_mode,
           size: 20,
         ),
       ),

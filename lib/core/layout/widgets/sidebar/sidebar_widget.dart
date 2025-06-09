@@ -64,7 +64,7 @@ class _SidebarWidgetState extends State<SidebarWidget> {
     return Container(
       width: isCollapsed ? 90 : 260,
       height: double.infinity,
-      color: AppColors.sidebarBlue,
+      color: AppColors.sidebar,
       padding: const EdgeInsets.symmetric(vertical: 16),
       child: Column(
         children: [
