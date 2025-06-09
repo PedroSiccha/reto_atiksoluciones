@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:reto_atiksoluciones/core/models/notification_item.dart';
+import 'package:reto_atiksoluciones/features/header/data/models/notification_item.dart';
 import 'package:reto_atiksoluciones/features/header/presentation/widgets/header_notifications/header_notification_overlay.dart';
 
 class HeaderNotificationIcon extends StatefulWidget {

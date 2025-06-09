@@ -1,63 +1,44 @@
 import 'package:flutter/material.dart';
 import 'package:reto_atiksoluciones/core/constants/app_colors.dart';
-import 'package:reto_atiksoluciones/core/layout/widgets/sidebar/components/menu_section.dart';
-import 'package:reto_atiksoluciones/core/layout/widgets/sidebar/components/menu_sub_item.dart';
-import 'package:reto_atiksoluciones/core/layout/widgets/sidebar/components/sidebar_header.dart';
-import 'package:reto_atiksoluciones/core/layout/widgets/sidebar/components/sidebar_item.dart';
-import 'package:reto_atiksoluciones/core/layout/widgets/sidebar/components/sidebar_section.dart';
-import 'package:reto_atiksoluciones/core/layout/widgets/sidebar/components/sidebar_user_card.dart';
+import 'package:reto_atiksoluciones/features/sidebar/data/models/menu_section.dart';
+import 'package:reto_atiksoluciones/features/sidebar/presentation/widgets/sidebar_header.dart';
+import 'package:reto_atiksoluciones/features/sidebar/presentation/widgets/sidebar_item.dart';
+import 'package:reto_atiksoluciones/features/sidebar/presentation/widgets/sidebar_section.dart';
+import 'package:reto_atiksoluciones/features/sidebar/presentation/widgets/sidebar_user_card.dart';
 
-class SidebarWidget extends StatefulWidget {
-  const SidebarWidget({super.key});
+class AppSidebar extends StatelessWidget {
+  final bool isCollapsed;
+  final List<MenuSection> sections;
+  final void Function() onToggleCollapse;
+  final void Function(int index) onSectionTap;
+  final void Function(int sectionIndex, int itemIndex) onSubItemTap;
+  final int? selectedSectionIndex;
+  final ({int section, int index})? selectedSubItem;
+  final int? expandedIndex;
+  final int? hoveredSectionIndex;
+  final ({int section, int index})? hoveredSubItem;
+  final void Function(int index)? onHoverSection;
+  final void Function()? onExitHoverSection;
+  final void Function(int sectionIndex, int itemIndex)? onHoverSubItem;
+  final void Function()? onExitHoverSubItem;
 
-  @override
-  State<SidebarWidget> createState() => _SidebarWidgetState();
-}
-
-class _SidebarWidgetState extends State<SidebarWidget> {
-  int? selectedSectionIndex;
-  ({int section, int index})? selectedSubItem;
-  int? expandedIndex;
-  int? hoveredSectionIndex;
-  ({int section, int index})? hoveredSubItem;
-  bool isCollapsed = false;
-
-  final List<MenuSection> sections = [
-    MenuSection(title: "Portal del Empleado", icon: Icons.folder, children: [
-      MenuSubItem(title: "Solicitudes", icon: Icons.description),
-      MenuSubItem(title: "Comprobantes de Pago", icon: Icons.receipt_long),
-      MenuSubItem(title: "Informe de Cursos", icon: Icons.school),
-    ]),
-    MenuSection(title: "Cola de Aprobación", icon: Icons.list_alt),
-    MenuSection(title: "Reclutamiento", icon: Icons.work),
-    MenuSection(title: "Portal del Candidato", icon: Icons.folder_shared),
-    MenuSection(title: "Evaluación de desempeño", icon: Icons.bar_chart),
-    MenuSection(title: "Consolidación", icon: Icons.calculate),
-    MenuSection(title: "Cálculos Impositivos", icon: Icons.receipt),
-  ];
-
-  void onSectionTap(int index) {
-    setState(() {
-      selectedSectionIndex = index;
-      selectedSubItem = null;
-      if (sections[index].children.isNotEmpty) {
-        expandedIndex = expandedIndex == index ? null : index;
-      }
-    });
-  }
-
-  void onSubItemTap(int sectionIndex, int itemIndex) {
-    setState(() {
-      selectedSubItem = (section: sectionIndex, index: itemIndex);
-      selectedSectionIndex = sectionIndex;
-    });
-  }
-
-  void toggleCollapse() {
-    setState(() {
-      isCollapsed = !isCollapsed;
-    });
-  }
+  const AppSidebar({
+    super.key,
+    required this.isCollapsed,
+    required this.sections,
+    required this.onToggleCollapse,
+    required this.onSectionTap,
+    required this.onSubItemTap,
+    required this.selectedSectionIndex,
+    required this.selectedSubItem,
+    required this.expandedIndex,
+    required this.hoveredSectionIndex,
+    required this.hoveredSubItem,
+    required this.onHoverSection,
+    required this.onExitHoverSection,
+    required this.onHoverSubItem,
+    required this.onExitHoverSubItem,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -68,10 +49,7 @@ class _SidebarWidgetState extends State<SidebarWidget> {
       padding: const EdgeInsets.symmetric(vertical: 16),
       child: Column(
         children: [
-          SidebarHeader(
-            isCollapsed: isCollapsed,
-            onToggle: toggleCollapse,
-          ),
+          SidebarHeader(isCollapsed: isCollapsed, onToggle: onToggleCollapse),
           const SizedBox(height: 12),
           if (!isCollapsed) const SidebarUserCard(),
           const Divider(color: Colors.white24, indent: 24, endIndent: 24),
@@ -89,8 +67,8 @@ class _SidebarWidgetState extends State<SidebarWidget> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     MouseRegion(
-                      onEnter: (_) => setState(() => hoveredSectionIndex = index),
-                      onExit: (_) => setState(() => hoveredSectionIndex = null),
+                      onEnter: (_) => onHoverSection?.call(index),
+                      onExit: (_) => onExitHoverSection?.call(),
                       child: SidebarSection(
                         title: section.title,
                         icon: section.icon,
@@ -108,12 +86,14 @@ class _SidebarWidgetState extends State<SidebarWidget> {
                         child: Column(
                           children: List.generate(section.children.length, (subIndex) {
                             final item = section.children[subIndex];
-                            final isSubActive = selectedSubItem?.section == index && selectedSubItem?.index == subIndex;
-                            final isSubHovered = hoveredSubItem?.section == index && hoveredSubItem?.index == subIndex;
+                            final isSubActive = selectedSubItem?.section == index &&
+                                selectedSubItem?.index == subIndex;
+                            final isSubHovered = hoveredSubItem?.section == index &&
+                                hoveredSubItem?.index == subIndex;
 
                             return MouseRegion(
-                              onEnter: (_) => setState(() => hoveredSubItem = (section: index, index: subIndex)),
-                              onExit: (_) => setState(() => hoveredSubItem = null),
+                              onEnter: (_) => onHoverSubItem?.call(index, subIndex),
+                              onExit: (_) => onExitHoverSubItem?.call(),
                               child: SidebarItem(
                                 title: item.title,
                                 icon: item.icon,

@@ -43,6 +43,18 @@ const TextStyle kBreadcrumbActiveStyle = TextStyle(
   fontWeight: FontWeight.w600,
 );
 
+const TextStyle logoText = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.bold,
+    color: AppColors.primary,
+);
+
+const TextStyle sidebarTitle = TextStyle(
+    fontSize: 18,
+    fontWeight: FontWeight.w600,
+    color: AppColors.background,
+);
+
 // Icono entre ítems
 const Widget kBreadcrumbSeparator = Padding(
   padding: EdgeInsets.symmetric(horizontal: 8),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:reto_atiksoluciones/core/models/menu_option.dart';
+import 'package:reto_atiksoluciones/features/header/data/models/menu_option.dart';
 import 'package:reto_atiksoluciones/features/header/presentation/widgets/header_avatar/header_avatar_menu_overlay.dart';
 
 class HeaderAvatarMenu extends StatefulWidget {
