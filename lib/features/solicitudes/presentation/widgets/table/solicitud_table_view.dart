@@ -1,142 +1,79 @@
 import 'package:flutter/material.dart';
+import 'package:reto_atiksoluciones/core/shared/widgets/helpers/estado_chip.dart.dart';
+import 'package:reto_atiksoluciones/core/shared/widgets/table/base_data_table.dart';
+import 'package:reto_atiksoluciones/features/solicitudes/data/models/solicitud_model.dart';
+import 'package:reto_atiksoluciones/core/shared/widgets/helpers/solicitud_tipo_icon.dart';
 
 class SolicitudTableView extends StatelessWidget {
-  const SolicitudTableView({super.key});
+  final List<SolicitudModel> data;
+  const SolicitudTableView({
+    super.key,
+    required this.data
+  });
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(8),
-      child: LayoutBuilder(
-        builder: (context, constraints) {
-          return SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: ConstrainedBox(
-              constraints: BoxConstraints(minWidth: constraints.maxWidth),
-              child: IntrinsicWidth(
-                child: DataTable(
-                  headingRowHeight: 56,
-                  dataRowMinHeight: 56,
-                  dataRowMaxHeight: 64,
-                  dataRowColor: MaterialStateProperty.resolveWith<Color?>((states) {
-                    if (states.contains(MaterialState.hovered)) {
-                      return const Color(0xFFF9FAFB); // fondo al pasar el mouse
-                    }
-                    return Colors.transparent;
-                  }),
-                  headingRowColor: MaterialStateProperty.all(
-                    const Color(0xFFF9FAFB), // fondo gris claro para header
-                  ),
-                  headingTextStyle: const TextStyle(
-                    fontWeight: FontWeight.w600,
-                    color: Color(0xFF374151),
-                  ),
-                  columnSpacing: 16,
-                  horizontalMargin: 16,
-                  columns: const [
-                    DataColumn(label: Text('Código')),
-                    DataColumn(label: Text('Tipo')),
-                    DataColumn(label: Text('Empleado')),
-                    DataColumn(label: Text('Periodo')),
-                    DataColumn(label: Text('Empresa/Sucursal')),
-                    DataColumn(label: Text('Solicitado')),
-                    DataColumn(label: Text('Estado')),
-                    DataColumn(label: Text('Acciones')),
-                  ],
-                  rows: List.generate(10, (index) {
-                    return DataRow.byIndex(
-                      index: index,
-                      cells: [
-                        DataCell(Text('0000${index + 1}')),
-                      
-                        // TIPO
-                        DataCell(
-                          SizedBox(
-                            width: 200,
-                            child: _TipoCell(
-                              tipo: 'Vacaciones',
-                              fecha: '15/03/2025',
-                            ),
-                          ),
-                        ),
-                      
-                      
-                        // EMPLEADO
-                        DataCell(
-                          SizedBox(
-                            width: 180,
-                            child: _EmpleadoCell(
-                              nombre: 'María Rodríguez',
-                              codigo: '001',
-                              area: 'Recepción',
-                            ),
-                          ),
-                        ),
-                      
-                      
-                        // PERIODO
-                        const DataCell(Text('01/04/2025 al 15/04/2025')),
-                      
-                        // EMPRESA/SUCURSAL
-                        DataCell(Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.min,
-                          children: const [
-                            Text('Grupo Puntacana'),
-                            Text(
-                              'Puntacana Resort & Club',
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: Color(0xFF9CA3AF),
-                              ),
-                            ),
-                          ],
-                        )),
-                      
-                        // SOLICITADO
-                        const DataCell(Text('hace 85 días')),
-                      
-                        // ESTADO
-                        DataCell(Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 8, vertical: 4),
-                          decoration: BoxDecoration(
-                            color: const Color(0xFFFEF3C7),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: const Text(
-                            'Pendiente',
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w500,
-                              color: Color(0xFFF59E0B),
-                            ),
-                          ),
-                        )),
-                      
-                        // ACCIONES
-                        DataCell(
-                          SizedBox(
-                            width: 200,
-                            child: _AccionesCell(
-                              onView: () => print('Ver detalles'),
-                              onEditar: () => print('Editar'),
-                              onDescargar: () => print('Descargar'),
-                              onAprobar: () => print('Aprobar'),
-                              onRechazar: () => print('Rechazar'),
-                            ),
-                          ),
-                        ),
-                      
-                      ],
-                    );
-                  }),
-                ),
-              ),
+    return BaseDataTable(
+      columns: const [
+        DataColumn(label: Text('Código')),
+        DataColumn(label: Text('Tipo')),
+        DataColumn(label: Text('Empleado')),
+        DataColumn(label: Text('Periodo')),
+        DataColumn(label: Text('Empresa/Sucursal')),
+        DataColumn(label: Text('Solicitado')),
+        DataColumn(label: Text('Estado')),
+        DataColumn(label: Text('Acciones')),
+      ],
+      rows: List.generate(data.length, (index) {
+        final item = data[index];
+        return DataRow.byIndex(
+          index: index,
+          cells: [
+            DataCell(Text(item.codigo)),
+            DataCell(
+                ConstrainedBox(
+                  constraints: const BoxConstraints(minWidth: 180),
+                  child: _TipoCell(tipo: item.tipo, fecha: item.fechaTipo),
+                )
             ),
-          );
-        },
-      ),
+            DataCell(
+                ConstrainedBox(
+                  constraints: const BoxConstraints(minWidth: 180),
+                  child: _EmpleadoCell(
+                    nombre: item.nombreEmpleado,
+                    codigo: item.codigoEmpleado,
+                    area: item.areaEmpleado,
+                  ),
+                )
+            ),
+            DataCell(Text(item.periodo)),
+            DataCell(Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(item.empresa),
+                Text(
+                  item.sucursal,
+                  style: const TextStyle(fontSize: 12, color: Color(0xFF9CA3AF)),
+                ),
+              ],
+            )),
+            DataCell(Text(item.solicitado)),
+            DataCell(EstadoChip(estado: item.estado)),
+            DataCell(
+                ConstrainedBox(
+                  constraints: const BoxConstraints(minWidth: 180),
+                  child: _AccionesCell(
+                    onView: () => print('Ver detalles'),
+                    onEditar: () => print('Editar'),
+                    onDescargar: () => print('Descargar'),
+                    onAprobar: () => print('Aprobar'),
+                    onRechazar: () => print('Rechazar'),
+                  ),
+                )
+            ),
+          ],
+        );
+      }),
     );
   }
 }
@@ -342,23 +279,6 @@ class _TipoCell extends StatelessWidget {
     required this.fecha,
   });
 
-  IconData _getIconByTipo(String tipo) {
-    switch (tipo.toLowerCase()) {
-      case 'vacaciones':
-        return Icons.beach_access;
-      case 'permiso':
-        return Icons.calendar_today;
-      case 'licencia médica':
-        return Icons.local_hospital;
-      case 'cambio alojamiento':
-        return Icons.meeting_room;
-      case 'uniformes':
-        return Icons.checkroom;
-      default:
-        return Icons.label;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return IntrinsicHeight(
@@ -370,13 +290,13 @@ class _TipoCell extends StatelessWidget {
             child: Container(
               padding: const EdgeInsets.all(6),
               decoration: BoxDecoration(
-                color: const Color(0xFFE0EDFF),
+                color: SolicitudTipoIcon.getBackground(tipo),
                 shape: BoxShape.circle,
               ),
               child: Icon(
-                _getIconByTipo(tipo),
+                SolicitudTipoIcon.getIcon(tipo),
                 size: 16,
-                color: const Color(0xFF0061F2),
+                color: SolicitudTipoIcon.getColor(tipo),
               ),
             ),
           ),

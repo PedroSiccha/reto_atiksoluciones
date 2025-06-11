@@ -1,88 +1,73 @@
 import 'package:flutter/material.dart';
+import 'package:reto_atiksoluciones/core/shared/widgets/filters/base_filters_section.dart';
+import 'package:reto_atiksoluciones/features/solicitudes/domain/models/filter_group_data.dart';
 import 'package:reto_atiksoluciones/features/solicitudes/presentation/widgets/filter_advanced_panel.dart';
 
-class SectionFilters extends StatelessWidget {
+class SectionFilters extends StatefulWidget {
   const SectionFilters({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 24),
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: const Color(0xFFE5E7EB)),
+  State<SectionFilters> createState() => _SectionFiltersState();
+}
+
+class _SectionFiltersState extends State<SectionFilters> {
+  String _searchQuery = '';
+  late List<FilterGroupData> _filterGroups;
+
+  @override
+  void initState() {
+    super.initState();
+    _filterGroups = [
+      FilterGroupData(
+        title: 'TIPOS DE SOLICITUD',
+        items: ['Vacaciones', 'Permiso', 'Cambio puesto'],
+        selected: {},
       ),
-      child: Row(
-        children: [
-          // 🔍 Input de búsqueda
-          Expanded(
-            flex: 2,
-            child: TextField(
-              decoration: InputDecoration(
-                contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                hintText: 'Buscar solicitudes...',
-                prefixIcon: const Icon(Icons.search, size: 20, color: Color(0xFF9CA3AF)),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  borderSide: const BorderSide(color: Color(0xFFE5E7EB)),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  borderSide: const BorderSide(color: Color(0xFFE5E7EB)),
-                ),
-              ),
-            ),
-          ),
+      FilterGroupData(
+        title: 'ESTADOS',
+        items: ['Pendiente', 'Aprobada', 'Rechazada'],
+        selected: {},
+      ),
+    ];
+  }
 
-          const SizedBox(width: 16),
+  void _onSearchChanged(String value) {
+    setState(() {
+      _searchQuery = value;
+    });
+  }
 
-          // ⬇️ Filtro avanzado
-          Expanded(
-            flex: 1,
-            child: PopupMenuButton<int>(
-              onSelected: (value) {},
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-              itemBuilder: (context) => [
-                PopupMenuItem(
-                  enabled: false,
-                  padding: EdgeInsets.zero,
-                  child: FilterAdvancedPanel(
-                    onClear: () {
-                      // TODO: limpiar filtros
-                    },
-                    onApply: () {
-                      // TODO: aplicar filtros
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                ),
-              ],
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-                decoration: BoxDecoration(
-                  border: Border.all(color: const Color(0xFFE5E7EB)),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: const [
-                    Text(
-                      'Filtro avanzado',
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Color(0xFF111827),
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    Icon(Icons.keyboard_arrow_down_rounded, size: 20, color: Color(0xFF6B7280)),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ],
+  void _onGroupChanged(int index, Set<String> selected) {
+    setState(() {
+      _filterGroups[index] = _filterGroups[index].copyWith(selected: selected);
+    });
+  }
+
+  void _onClearFilters() {
+    setState(() {
+      _searchQuery = '';
+      _filterGroups = _filterGroups
+          .map((group) => group.copyWith(selected: {}))
+          .toList();
+    });
+  }
+
+  void _onApplyFilters() {
+    Navigator.of(context).pop();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return BaseFiltersSection(
+      searchHint: 'Buscar solicitudes...',
+      onSearchChanged: _onSearchChanged,
+      onApplyFilters: _onApplyFilters,
+      onClearFilters: _onClearFilters,
+      advancedFilterPanel: FilterAdvancedPanel(
+        groups: _filterGroups,
+        onGroupChanged: _onGroupChanged,
+        onApply: _onApplyFilters,
+        onClear: _onClearFilters,
       ),
     );
   }

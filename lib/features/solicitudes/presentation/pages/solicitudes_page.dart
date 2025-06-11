@@ -4,18 +4,15 @@ import 'package:reto_atiksoluciones/features/sidebar/presentation/widgets/sideba
 import 'package:reto_atiksoluciones/features/header/presentation/widgets/header_widget.dart';
 import 'package:reto_atiksoluciones/features/solicitudes/presentation/widgets/main_content.dart';
 
-class RequestsPage extends StatelessWidget {
-  const RequestsPage({super.key});
+class SolicitudesPage extends StatelessWidget {
+  const SolicitudesPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 4,
-      child: const AppScaffold(
-        sidebar: SidebarWidget(),
-        header: HeaderWidget(breadcrumbItems: ['Portal de Empleo', 'Solicitudes']),
-        content: MainContent(),
-      ),
+    return const AppScaffold(
+      sidebar: SidebarWidget(),
+      header: HeaderWidget(breadcrumbItems: ['Portal de Empleo', 'Solicitudes']),
+      content: MainContent(),
     );
   }
 }

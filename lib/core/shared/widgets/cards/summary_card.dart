@@ -18,7 +18,6 @@ class SummaryCard extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          // Texto
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -42,7 +41,6 @@ class SummaryCard extends StatelessWidget {
               ),
             ],
           ),
-          // Icono
           Container(
             width: 42,
             height: 42,

@@ -25,7 +25,6 @@ class SolicitudFooter extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        // 👁 Info de resultados
         Text(
           'Mostrando $start–$end de $totalItems resultados',
           style: const TextStyle(
@@ -36,7 +35,6 @@ class SolicitudFooter extends StatelessWidget {
 
         Row(
           children: [
-            // 🔢 Selector de cantidad de filas
             const Text(
               'Registros por página:',
               style: TextStyle(
@@ -58,7 +56,6 @@ class SolicitudFooter extends StatelessWidget {
             ),
             const SizedBox(width: 16),
 
-            // ⏮⏭ Paginación
             IconButton(
               icon: const Icon(Icons.chevron_left),
               tooltip: 'Anterior',

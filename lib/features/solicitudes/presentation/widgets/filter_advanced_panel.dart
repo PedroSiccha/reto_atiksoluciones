@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:reto_atiksoluciones/core/shared/widgets/filters/filter_group.dart';
+import 'package:reto_atiksoluciones/features/solicitudes/domain/models/filter_group_data.dart';
 
 class FilterAdvancedPanel extends StatelessWidget {
-  final VoidCallback onClear;
+  final List<FilterGroupData> groups;
+  final void Function(int index, Set<String> selected) onGroupChanged;
   final VoidCallback onApply;
+  final VoidCallback onClear;
 
   const FilterAdvancedPanel({
     super.key,
-    required this.onClear,
+    required this.groups,
+    required this.onGroupChanged,
     required this.onApply,
+    required this.onClear,
   });
 
   @override
@@ -24,7 +30,6 @@ class FilterAdvancedPanel extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              // Header
               Row(
                 children: [
                   const Expanded(
@@ -52,33 +57,26 @@ class FilterAdvancedPanel extends StatelessWidget {
                         fontWeight: FontWeight.w500,
                       ),
                     ),
-                  )
+                  ),
                 ],
               ),
-
               const Divider(color: Color(0xFFE5E7EB)),
-
               const SizedBox(height: 8),
-
-              // Filtro: Tipos de solicitud
-              const _FilterGroup(
-                title: 'TIPOS DE SOLICITUD',
-                items: ['Vacaciones', 'Permiso', 'Cambio puesto'],
-              ),
-              const SizedBox(height: 12),
-
-              // Filtro: Estados
-              const _FilterGroup(
-                title: 'ESTADOS',
-                items: ['Pendiente', 'Aprobada', 'Rechazada'],
-              ),
-              const SizedBox(height: 12),
-
-              // Aquí seguirán más grupos...
+              ...List.generate(groups.length, (index) {
+                final group = groups[index];
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: 12),
+                  child: FilterGroup(
+                    title: group.title,
+                    items: group.items,
+                    selectedItems: group.selected,
+                    onChanged: (updated) => onGroupChanged(index, updated),
+                  ),
+                );
+              }),
 
               const SizedBox(height: 16),
 
-              // Botón aplicar filtros
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
@@ -99,66 +97,6 @@ class FilterAdvancedPanel extends StatelessWidget {
           ),
         ),
       ),
-    );
-  }
-}
-
-class _FilterGroup extends StatefulWidget {
-  final String title;
-  final List<String> items;
-
-  const _FilterGroup({required this.title, required this.items});
-
-  @override
-  State<_FilterGroup> createState() => _FilterGroupState();
-}
-
-class _FilterGroupState extends State<_FilterGroup> {
-  bool isExpanded = false;
-  final Set<String> selected = {};
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        ListTile(
-          contentPadding: EdgeInsets.zero,
-          title: Text(
-            widget.title,
-            style: const TextStyle(
-              fontWeight: FontWeight.w500,
-              color: Color(0xFF374151),
-            ),
-          ),
-          trailing: Icon(
-            isExpanded ? Icons.expand_less : Icons.expand_more,
-            color: const Color(0xFF9CA3AF),
-          ),
-          onTap: () => setState(() => isExpanded = !isExpanded),
-        ),
-        if (isExpanded)
-          Column(
-            children: widget.items
-                .map(
-                  (item) => CheckboxListTile(
-                value: selected.contains(item),
-                contentPadding: EdgeInsets.zero,
-                title: Text(item),
-                onChanged: (checked) {
-                  setState(() {
-                    if (checked == true) {
-                      selected.add(item);
-                    } else {
-                      selected.remove(item);
-                    }
-                  });
-                },
-                controlAffinity: ListTileControlAffinity.leading,
-              ),
-            )
-                .toList(),
-          )
-      ],
     );
   }
 }

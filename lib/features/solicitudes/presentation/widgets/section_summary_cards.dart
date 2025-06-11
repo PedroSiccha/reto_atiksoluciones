@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:reto_atiksoluciones/features/solicitudes/data/models/summary_card_data.dart';
-import 'package:reto_atiksoluciones/features/solicitudes/presentation/widgets/summary_card.dart';
+import 'package:reto_atiksoluciones/core/shared/widgets/cards/summary_card.dart';
 
 class SectionSummaryCards extends StatelessWidget {
   final List<SummaryCardData> cards;
@@ -13,10 +13,8 @@ class SectionSummaryCards extends StatelessWidget {
       builder: (context, constraints) {
         final double maxWidth = constraints.maxWidth;
 
-        // calcular cuántas columnas caben
         int columns = (maxWidth ~/ 260).clamp(1, cards.length);
 
-        // calcular el ancho exacto por card
         double spacing = 16;
         double availableWidth = maxWidth - spacing * (columns - 1);
         double cardWidth = availableWidth / columns;
