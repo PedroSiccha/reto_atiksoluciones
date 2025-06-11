@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:reto_atiksoluciones/core/router/app_router.dart';
-import 'package:reto_atiksoluciones/core/shared/controllers/theme_controller.dart';
+import 'package:reto_atiksoluciones/core/controllers/theme_controller.dart';
 import 'package:reto_atiksoluciones/core/theme/app_theme.dart';
 
 class MyApp extends StatelessWidget {

@@ -1,0 +1,4 @@
+enum SolicitudViewType {
+  table,
+  cards,
+}
